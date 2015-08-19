@@ -93,14 +93,14 @@ def plot_spiketrains(ax, spiketrains, label='', **options):
     """
     ax.set_xlim(0, spiketrains[0].t_stop/ms)
     handle_options(ax, options)
-    max_index = 0
+    sourceIndexes = []
     for spiketrain in spiketrains:
         ax.plot(spiketrain,
                  np.ones_like(spiketrain) * spiketrain.annotations['source_index'],
                  'k.', **options)
-        max_index = max(max_index, spiketrain.annotations['source_index'])
+        sourceIndexes.append(spiketrain.annotations['source_index'])
     ax.set_ylabel("Neuron index")
-    ax.set_ylim(-0.5, max_index + 0.5)
+    ax.set_ylim(-0.5 + min(sourceIndexes), max(sourceIndexes) + 0.5)
     if label:
         plt.text(0.95, 0.95, label,
                  transform=ax.transAxes, ha='right', va='top',
